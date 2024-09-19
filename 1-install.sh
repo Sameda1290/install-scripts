@@ -40,6 +40,28 @@ echo "Kurulum Baslatiliyor..."
 echo "Bu Script Intel Kurulumlar icin Tasarlanmistir."
 echo "Bu Script Disk Sifreleme Icermez."
 echo "-----------------------------------------------------"
+echo "Uncomment %wheel group in sudoers (around line 85):"
+echo "Oncesi: #[multilib]"
+echo "        #Include = /etc/pacman.d/mirrorlist"
+echo "Sonrasi:  [multilib]"
+echo "        Include = /etc/pacman.d/mirrorlist"
+echo ""
+read -p "config dosyasini acayimmi?" c
+vim /etc/pacman.conf
+sleep 2
+clear
+echo "    _             _       ___           _        _ _ "
+echo "   / \   _ __ ___| |__   |_ _|_ __  ___| |_ __ _| | |"
+echo "  / _ \ | '__/ __| '_ \   | || '_ \/ __| __/ _' | | |"
+echo " / ___ \| | | (__| | | |  | || | | \__ \ || (_| | | |"
+echo "/_/   \_\_|  \___|_| |_| |___|_| |_|___/\__\__,_|_|_|"
+echo ""
+echo "by Samet"
+echo "-----------------------------------------------------"
+echo "Kurulum Baslatiliyor..."
+echo "Bu Script Intel Kurulumlar icin Tasarlanmistir."
+echo "Bu Script Disk Sifreleme Icermez."
+echo "-----------------------------------------------------"
 lsblk
 read -p "EFI bolumunu giriniz (ornek vda1): " vda1
 read -p "ROOT bolumunu giriniz (ornek vda2): " vda2
