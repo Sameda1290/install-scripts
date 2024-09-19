@@ -79,5 +79,5 @@ cp 4-zram.sh /mnt/archinstall/
 cp 5-timeshift.sh /mnt/archinstall/
 cp 6-preload.sh /mnt/archinstall/
 cp snapshot.sh /mnt/archinstall/
-arch-chroot /mnt ./archinstalll/2-configuration.sh
+arch-chroot /mnt ./archinstall/2-configuration.sh
 
