@@ -1,5 +1,33 @@
 #!/bin/bash
 clear
+echo "UYARI BU SCRIPT INTEL KURULUM ICINDIR LUTFEN AMD ICIN KULLANMAYINIZ"
+echo "UYARI BU SCRIPT DISK SIFRELEME ICERMEZ"
+sleep 2
+clear
+echo "    _             _       ___           _        _ _ "
+echo "   / \   _ __ ___| |__   |_ _|_ __  ___| |_ __ _| | |"
+echo "  / _ \ | '__/ __| '_ \   | || '_ \/ __| __/ _' | | |"
+echo " / ___ \| | | (__| | | |  | || | | \__ \ || (_| | | |"
+echo "/_/   \_\_|  \___|_| |_| |___|_| |_|___/\__\__,_|_|_|"
+echo ""
+echo "by Samet1290"
+echo "-----------------------------------------------------"
+echo "Saat Dilimi Ayarlaniyor..."
+echo "Bu Script Intel Kurulumlar için Tasarlanmistir."
+echo "Bu Script Disk Şifreleme Icermez."
+echo "-----------------------------------------------------"
+echo ""
+timezone=$(curl -s https://ipinfo.io/timezone)
+ln -sf /usr/share/zoneinfo/$timezone /etc/localtime
+hwclock -uw
+timedatectl set-ntp 1
+timedatectl set-timezone $timezone
+timedatectl status && clear && sleep 0.1 && sleep 1 && date
+echo "-----------------------------------------------------"
+echo "Saat Dilimi $timezone Olarak Ayarlandı. "
+echo "-----------------------------------------------------"
+sleep 2
+clear
 echo "    _             _       ___           _        _ _ "
 echo "   / \   _ __ ___| |__   |_ _|_ __  ___| |_ __ _| | |"
 echo "  / _ \ | '__/ __| '_ \   | || '_ \/ __| __/ _' | | |"
@@ -8,32 +36,40 @@ echo "/_/   \_\_|  \___|_| |_| |___|_| |_|___/\__\__,_|_|_|"
 echo ""
 echo "by Samet"
 echo "-----------------------------------------------------"
-echo ""
-echo "Important: Please make sure that you have followed the "
-echo "manual steps in the README to partition the harddisc!"
-echo "Warning: Run this script at your own risk."
-echo ""
+echo "Kurulum Baslatiliyor..."
+echo "Bu Script Intel Kurulumlar icin Tasarlanmistir."
+echo "Bu Script Disk Sifreleme Icermez."
+echo "-----------------------------------------------------"
 lsblk
-read -p "Enter the name of the EFI partition (eg. sda1): " vda1
-read -p "Enter the name of the ROOT partition (eg. sda2): " vda2
-timedatectl set-ntp true
+read -p "EFI bolumunu giriniz (ornek vda1): " vda1
+read -p "ROOT bolumunu giriniz (ornek vda2): " vda2
 mkfs.fat -F 32 /dev/$vda1;
 mkfs.btrfs -f /dev/$vda2
-mount /dev/$vda2 /mnt
-btrfs su cr /mnt/@
-btrfs su cr /mnt/@cache
-btrfs su cr /mnt/@home
-btrfs su cr /mnt/@snapshots
-btrfs su cr /mnt/@log
+mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120 /dev/$vda2 /mnt
+cd /mnt
+btrfs su cr @
+btrfs su cr @/var
+mkdir @/usr
+btrfs su cr @/usr/local
+btrfs su cr @/srv
+btrfs su cr @/root
+btrfs su cr @/opt
+btrfs su cr @/tmp
+btrfs su cr @/home
+cd
 umount /mnt
-mount -o compress=zstd:1,noatime,subvol=@ /dev/$vda2 /mnt
-mkdir -p /mnt/{boot/efi,home,.snapshots,var/{cache,log}}
-mount -o compress=zstd:1,noatime,subvol=@cache /dev/$vda2 /mnt/var/cache
-mount -o compress=zstd:1,noatime,subvol=@home /dev/$vda2 /mnt/home
-mount -o compress=zstd:1,noatime,subvol=@log /dev/$vda2 /mnt/var/log
-mount -o compress=zstd:1,noatime,subvol=@snapshots /dev/$vda2 /mnt/.snapshots
-mount /dev/$vda1 /mnt/boot/efi
-pacstrap -K /mnt base base-devel git linux linux-zen linux-firmware vim openssh reflector rsync intel-ucode
+mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@,subvolid=256 /dev/$vda2 /mnt
+mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/var,subvolid=257 /dev/$vda2 /mnt/var
+mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/usr/local,subvolid=258 /dev/$vda2 /mnt/usr/local
+mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/srv,subvolid=259 /dev/$vda2 /mnt/srv
+mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/root,subvolid=260 /dev/$vda2 /mnt/root
+mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/opt,subvolid=261 /dev/$vda2 /mnt/opt
+mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/tmp,subvolid=262 /dev/$vda2 /mnt/tmp
+mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/home,subvolid=263 /dev/$vda2 /mnt/home
+mount --mkdir -t vfat -o nodev,nosuid,noexec /dev/$vda1 /mnt/boot/efi
+btrfs su 1 /mnt
+lsblk -f
+pacstrap -K /mnt intel-ucode btrfs-progs base base-devel linux-firmware linux-api-headers linux-headers xdg-user-dirs xorg xorg-xinit xorg-appres sysfsutils xorg-xwayland wayland-utils xorg-xauth vim nano p7zip unzip unrar zip udisks2 gvfs-afc gvfs-mtp gvfs-gphoto2 gphoto2 sudo mkinitcpio git wget curl networkmanager openssh mlocate neofetch inxi zsh noto-fonts ttf-dejavu ttf-dejavu-nerd ttf-roboto ttf-roboto-mono ttf-roboto-mono-nerd terminus-font gnu-free-fonts noto-fonts noto-fonts-emoji noto-fonts-extra ttf-font-awesome ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-liberation ttf-liberation-mono-nerd ttf-nerd-fonts-symbols-mono ttf-nerd-fonts-symbols-common ttf-roboto ttf-roboto-mono ttf-roboto-mono-nerd awesome-terminal-fonts ttf-font-awesome otf-font-awesome pipewire pipewire-pulse pipewire-alsa pipewire-audio pipewire-jack lib32-pipewire lib32-pipewire-jack wireplumber alsa-tools alsa-utils alsa-firmware --noconfirm --needed
 genfstab -U /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
 mkdir /mnt/archinstall
