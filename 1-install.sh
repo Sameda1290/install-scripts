@@ -62,6 +62,7 @@ echo "Kurulum Baslatiliyor..."
 echo "Bu Script Intel Kurulumlar icin Tasarlanmistir."
 echo "Bu Script Disk Sifreleme Icermez."
 echo "-----------------------------------------------------"
+sleep 2
 lsblk
 read -p "EFI bolumunu giriniz (ornek vda1): " vda1
 read -p "ROOT bolumunu giriniz (ornek vda2): " vda2
@@ -91,7 +92,8 @@ mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,sp
 mount --mkdir -t vfat -o nodev,nosuid,noexec /dev/$vda1 /mnt/boot/efi
 btrfs su 1 /mnt
 lsblk -f
-pacstrap -K /mnt intel-ucode btrfs-progs base base-devel linux-firmware linux-api-headers linux-headers xdg-user-dirs xorg xorg-xinit xorg-appres sysfsutils xorg-xwayland wayland-utils xorg-xauth vim nano p7zip unzip unrar zip udisks2 gvfs-afc gvfs-mtp gvfs-gphoto2 gphoto2 sudo mkinitcpio git wget curl networkmanager openssh mlocate neofetch inxi zsh noto-fonts ttf-dejavu ttf-dejavu-nerd ttf-roboto ttf-roboto-mono ttf-roboto-mono-nerd terminus-font gnu-free-fonts noto-fonts noto-fonts-emoji noto-fonts-extra ttf-font-awesome ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-liberation ttf-liberation-mono-nerd ttf-nerd-fonts-symbols-mono ttf-nerd-fonts-symbols-common ttf-roboto ttf-roboto-mono ttf-roboto-mono-nerd awesome-terminal-fonts ttf-font-awesome otf-font-awesome pipewire pipewire-pulse pipewire-alsa pipewire-audio pipewire-jack lib32-pipewire lib32-pipewire-jack wireplumber alsa-tools alsa-utils alsa-firmware --noconfirm --needed
+cd archinstalll/
+pacstrap -K /mnt intel-ucode btrfs-progs base base-devel linux linux-zen linux-lts linux-zen-headers linux-lts-headers linux-firmware linux-api-headers linux-headers xdg-user-dirs xorg xorg-xinit xorg-appres sysfsutils xorg-xwayland wayland-utils xorg-xauth vim nano p7zip unzip unrar zip udisks2 gvfs-afc gvfs-mtp gvfs-gphoto2 gphoto2 sudo mkinitcpio git wget curl networkmanager openssh mlocate neofetch inxi zsh noto-fonts ttf-dejavu ttf-dejavu-nerd ttf-roboto ttf-roboto-mono ttf-roboto-mono-nerd terminus-font gnu-free-fonts noto-fonts noto-fonts-emoji noto-fonts-extra ttf-font-awesome ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-liberation ttf-liberation-mono-nerd ttf-nerd-fonts-symbols-mono ttf-nerd-fonts-symbols-common ttf-roboto ttf-roboto-mono ttf-roboto-mono-nerd awesome-terminal-fonts ttf-font-awesome otf-font-awesome pipewire pipewire-pulse pipewire-alsa pipewire-audio pipewire-jack lib32-pipewire lib32-pipewire-jack wireplumber alsa-tools alsa-utils alsa-firmware --noconfirm --needed
 genfstab -U /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
 mkdir /mnt/archinstall
