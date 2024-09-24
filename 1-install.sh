@@ -43,7 +43,7 @@ echo "-----------------------------------------------------"
 echo "Uncomment %wheel group in sudoers (around line 85):"
 echo "Oncesi: #[multilib]"
 echo "        #Include = /etc/pacman.d/mirrorlist"
-echo "Sonrasi:  [multilib]"
+echo "Sonrasi:[multilib]"
 echo "        Include = /etc/pacman.d/mirrorlist"
 echo ""
 read -p "config dosyasini acayimmi?" c
