@@ -43,7 +43,7 @@ echo "-----------------------------------------------------"
 echo "Uncomment %wheel group in sudoers (around line 85):"
 echo "Oncesi: #[multilib]"
 echo "        #Include = /etc/pacman.d/mirrorlist"
-echo "Sonrasi:[multilib]"
+echo "Sonrasi:  [multilib]"
 echo "        Include = /etc/pacman.d/mirrorlist"
 echo ""
 read -p "config dosyasini acayimmi?" c
@@ -66,7 +66,7 @@ sleep 2
 lsblk
 read -p "EFI bolumunu giriniz (ornek vda1): " vda1
 read -p "ROOT bolumunu giriniz (ornek vda2): " vda2
-mkfs.fat -F 32 /dev/$vda1;
+mkfs.vfat -F32 -n /dev/$vda1;
 mkfs.btrfs -f /dev/$vda2
 mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120 /dev/$vda2 /mnt
 cd /mnt
@@ -90,9 +90,9 @@ mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,sp
 mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/tmp,subvolid=262 /dev/$vda2 /mnt/tmp
 mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/home,subvolid=263 /dev/$vda2 /mnt/home
 mount --mkdir -t vfat -o nodev,nosuid,noexec /dev/$vda1 /mnt/boot/efi
-btrfs su 1 /mnt
+btrfs su l /mnt
 lsblk -f
-cd install-scripts/
+cd install-scripts/archinstall/
 pacstrap -K /mnt intel-ucode btrfs-progs base base-devel linux linux-zen linux-lts linux-zen-headers linux-lts-headers linux-firmware linux-api-headers linux-headers xdg-user-dirs xorg xorg-xinit xorg-appres sysfsutils xorg-xwayland wayland-utils xorg-xauth vim nano p7zip unzip unrar zip udisks2 gvfs-afc gvfs-mtp gvfs-gphoto2 gphoto2 sudo mkinitcpio git wget curl networkmanager openssh mlocate neofetch inxi zsh noto-fonts ttf-dejavu ttf-dejavu-nerd ttf-roboto ttf-roboto-mono ttf-roboto-mono-nerd terminus-font gnu-free-fonts noto-fonts noto-fonts-emoji noto-fonts-extra ttf-font-awesome ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-liberation ttf-liberation-mono-nerd ttf-nerd-fonts-symbols-mono ttf-nerd-fonts-symbols-common ttf-roboto ttf-roboto-mono ttf-roboto-mono-nerd awesome-terminal-fonts ttf-font-awesome otf-font-awesome pipewire pipewire-pulse pipewire-alsa pipewire-audio pipewire-jack lib32-pipewire lib32-pipewire-jack wireplumber alsa-tools alsa-utils alsa-firmware --noconfirm --needed
 genfstab -U /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
