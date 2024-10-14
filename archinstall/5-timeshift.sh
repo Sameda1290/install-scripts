@@ -22,7 +22,7 @@ echo "  | | | | '_ ' _ \ / _ \/ __| '_ \| | |_| __| "
 echo "  | | | | | | | | |  __/\__ \ | | | |  _| |_  "
 echo "  |_| |_|_| |_| |_|\___||___/_| |_|_|_|  \__| "
 echo "                                               "
-echo ""
+echo "BTRFS-ASSISTANT"
 
 # -----------------------------------------------------
 # Confirm Start
@@ -43,7 +43,7 @@ done
 # -----------------------------------------------------
 # Install zram
 # -----------------------------------------------------
-yay --noconfirm -S timeshift
+yay --noconfirm -S btrfs-assistant grub-btrfs snapper snapper snap-pac-git snapper-support
 
 echo "DONE!"
 echo "You can create snapshots and update the GRUB Bootloader with ./snapshot.sh"
