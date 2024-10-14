@@ -65,27 +65,18 @@ read -p "EFI bolumunu giriniz (ornek vda1): " vda1
 read -p "ROOT bolumunu giriniz (ornek vda2): " vda2
 mkfs.vfat -F32 -n /dev/$vda1;
 mkfs.btrfs -f /dev/$vda2
-mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120 /dev/$vda2 /mnt
+mount -t btrfs -o defaults,rw,noatime,compress=zstd:2,ssd,discard=async,space_cache=v2,commit=120 /dev/$vda2 /mnt
 cd /mnt
 btrfs su cr @
-btrfs su cr @/var
-mkdir @/usr
-btrfs su cr @/usr/local
-btrfs su cr @/srv
-btrfs su cr @/root
-btrfs su cr @/opt
-btrfs su cr @/tmp
-btrfs su cr @/home
+btrfs su cr @var/log
+btrfs su cr @var/cache/pacman/pkg
+btrfs su cr @home
 cd
 umount /mnt
-mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@,subvolid=256 /dev/$vda2 /mnt
-mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/var,subvolid=257 /dev/$vda2 /mnt/var
-mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/usr/local,subvolid=258 /dev/$vda2 /mnt/usr/local
-mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/srv,subvolid=259 /dev/$vda2 /mnt/srv
-mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/root,subvolid=260 /dev/$vda2 /mnt/root
-mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/opt,subvolid=261 /dev/$vda2 /mnt/opt
-mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/tmp,subvolid=262 /dev/$vda2 /mnt/tmp
-mount -t btrfs -o defaults,rw,noatime,compress-force=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/home,subvolid=263 /dev/$vda2 /mnt/home
+mount -t btrfs -o defaults,rw,noatime,compress=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@,subvolid=256 /dev/$vda2 /mnt
+mount -t btrfs -o defaults,rw,noatime,compress=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/var/log,subvolid=257 /dev/$vda2 /mnt/var/log
+mount -t btrfs -o defaults,rw,noatime,compress=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/var/cache/pacman/pacman/pkg,subvolid=258 /dev/$vda2 /mnt/var/cache/pacman/pkg
+mount -t btrfs -o defaults,rw,noatime,compress=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/home,subvolid=259 /dev/$vda2 /mnt/home
 mount --mkdir -t vfat -o nodev,nosuid,noexec /dev/$vda1 /mnt/boot/efi
 btrfs su l /mnt
 lsblk -f
