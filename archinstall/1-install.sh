@@ -3,7 +3,6 @@ clear
 echo "UYARI BU SCRIPT INTEL KURULUM ICINDIR LUTFEN AMD ICIN KULLANMAYINIZ"
 echo "UYARI BU SCRIPT DISK SIFRELEME ICERMEZ"
 sleep 2
-clear
 echo "    _             _       ___           _        _ _ "
 echo "   / \   _ __ ___| |__   |_ _|_ __  ___| |_ __ _| | |"
 echo "  / _ \ | '__/ __| '_ \   | || '_ \/ __| __/ _' | | |"
@@ -27,7 +26,6 @@ echo "-----------------------------------------------------"
 echo "Saat Dilimi $timezone Olarak Ayarlandı. "
 echo "-----------------------------------------------------"
 sleep 2
-clear
 echo "    _             _       ___           _        _ _ "
 echo "   / \   _ __ ___| |__   |_ _|_ __  ___| |_ __ _| | |"
 echo "  / _ \ | '__/ __| '_ \   | || '_ \/ __| __/ _' | | |"
@@ -49,7 +47,6 @@ echo ""
 read -p "config dosyasini acayimmi?" c
 vim /etc/pacman.conf
 sleep 2
-clear
 echo "    _             _       ___           _        _ _ "
 echo "   / \   _ __ ___| |__   |_ _|_ __  ___| |_ __ _| | |"
 echo "  / _ \ | '__/ __| '_ \   | || '_ \/ __| __/ _' | | |"

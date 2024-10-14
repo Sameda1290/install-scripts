@@ -1,4 +1,3 @@
-clear
 keyboardlayout="trq"
 zoneinfo="Europe/Istanbul"
 hostname="ArchLinux"
@@ -18,7 +17,6 @@ echo "$hostname" >> /etc/hostname
 echo "127.0.0.1 localhost" >> /etc/hosts
 echo "::1       localhost" >> /etc/hosts
 echo "127.0.1.1 $hostname.localdomain $hostname" >> /etc/hosts
-clear
 echo "Set root password"
 passwd root
 echo "Add user $username"
@@ -41,7 +39,6 @@ mkinitcpio -p
 # ------------------------------------------------------
 # Add user to wheel
 # ------------------------------------------------------
-clear
 echo "Uncomment %wheel group in sudoers (around line 85):"
 echo "Before: #%wheel ALL=(ALL:ALL) ALL"
 echo "After:  %wheel ALL=(ALL:ALL) ALL"
@@ -58,8 +55,7 @@ cp /archinstall/4-zram.sh /home/$username
 cp /archinstall/5-timeshift.sh /home/$username
 cp /archinstall/6-preload.sh /home/$username
 cp /archinstall/snapshot.sh /home/$username
-
-clear
+sleep 1
 echo "     _                   "
 echo "  __| | ___  _ __   ___  "
 echo " / _' |/ _ \| '_ \ / _ \ "
