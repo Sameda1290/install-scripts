@@ -3,6 +3,7 @@ clear
 echo "UYARI BU SCRIPT INTEL KURULUM ICINDIR LUTFEN AMD ICIN KULLANMAYINIZ"
 echo "UYARI BU SCRIPT DISK SIFRELEME ICERMEZ"
 sleep 2
+clear
 echo "    _             _       ___           _        _ _ "
 echo "   / \   _ __ ___| |__   |_ _|_ __  ___| |_ __ _| | |"
 echo "  / _ \ | '__/ __| '_ \   | || '_ \/ __| __/ _' | | |"
@@ -16,14 +17,19 @@ echo "Bu Script Intel Kurulumlar için Tasarlanmistir."
 echo "Bu Script Disk Şifreleme Icermez."
 echo "-----------------------------------------------------"
 echo ""
+sleep 2
+echo "-----------------------------------------------------"
+echo "Saat Dilimi Ayarlaniyor. "
+echo "-----------------------------------------------------"
 timezone=$(curl -s https://ipinfo.io/timezone)
 ln -sf /usr/share/zoneinfo/$timezone /etc/localtime
 hwclock -uw
 timedatectl set-ntp 1
 timedatectl set-timezone $timezone
 timedatectl status && clear && sleep 0.1 && sleep 1 && date
+clear
 echo "-----------------------------------------------------"
-echo "Saat Dilimi $timezone Olarak Ayarlandı. "
+echo "Saat Dilimi $timezone Olarak Ayarlandi. "
 echo "-----------------------------------------------------"
 sleep 2
 echo "    _             _       ___           _        _ _ "
@@ -38,15 +44,16 @@ echo "Kurulum Baslatiliyor..."
 echo "Bu Script Intel Kurulumlar icin Tasarlanmistir."
 echo "Bu Script Disk Sifreleme Icermez."
 echo "-----------------------------------------------------"
-echo "Uncomment %wheel group in sudoers (around line 85):"
+echo "aşağıda gösterileni yap:"
 echo "Oncesi: #[multilib]"
 echo "        #Include = /etc/pacman.d/mirrorlist"
-echo "Sonrasi:  [multilib]"
+echo "Sonrasi:[multilib]"
 echo "        Include = /etc/pacman.d/mirrorlist"
 echo ""
 read -p "config dosyasini acayimmi?" c
 vim /etc/pacman.conf
 sleep 2
+clear
 echo "    _             _       ___           _        _ _ "
 echo "   / \   _ __ ___| |__   |_ _|_ __  ___| |_ __ _| | |"
 echo "  / _ \ | '__/ __| '_ \   | || '_ \/ __| __/ _' | | |"
@@ -92,5 +99,7 @@ cp 4-zram.sh /mnt/archinstall/
 cp 5-timeshift.sh /mnt/archinstall/
 cp 6-preload.sh /mnt/archinstall/
 cp snapshot.sh /mnt/archinstall/
+echo "1. adim tamamlandi"
+sleep 1
+echo "2. adima geciliyor"
 arch-chroot /mnt ./archinstall/2-configuration.sh
-
