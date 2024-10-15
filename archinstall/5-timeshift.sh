@@ -46,5 +46,4 @@ done
 yay --noconfirm -S btrfs-assistant grub-btrfs snapper snapper snap-pac-git snapper-support
 
 echo "DONE!"
-echo "You can create snapshots and update the GRUB Bootloader with ./snapshot.sh"
 

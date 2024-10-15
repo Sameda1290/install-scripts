@@ -61,23 +61,24 @@ echo "Bu Script Disk Sifreleme Icermez."
 echo "-----------------------------------------------------"
 sleep 2
 lsblk
-read -p "EFI bolumunu giriniz (ornek vda1): " vda1
-read -p "ROOT bolumunu giriniz (ornek vda2): " vda2
+read -p "EFI bolumunu giriniz (ornek sda1): " vda1
+read -p "ROOT bolumunu giriniz (ornek sda2): " vda2
 mkfs.vfat -F32 -n /dev/$vda1;
 mkfs.btrfs -f /dev/$vda2
-mount -t btrfs -o defaults,rw,noatime,compress=zstd:2,ssd,discard=async,space_cache=v2,commit=120 /dev/$vda2 /mnt
-cd /mnt
-btrfs su cr @
-btrfs su cr @var/log
-btrfs su cr @var/cache/pacman/pkg
-btrfs su cr @home
-cd
+mount /dev/$vda2 /mnt
+btrfs su cr /mnt/@
+btrfs su cr /mnt/@cache
+btrfs su cr /mnt/@home
+btrfs su cr /mnt/@snapshots
+btrfs su cr /mnt/@log
 umount /mnt
-mount -t btrfs -o defaults,rw,noatime,compress=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@,subvolid=256 /dev/$vda2 /mnt
-mount -t btrfs -o defaults,rw,noatime,compress=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/var/log,subvolid=257 /dev/$vda2 /mnt/var/log
-mount -t btrfs -o defaults,rw,noatime,compress=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/var/cache/pacman/pacman/pkg,subvolid=258 /dev/$vda2 /mnt/var/cache/pacman/pkg
-mount -t btrfs -o defaults,rw,noatime,compress=zstd:2,ssd,discard=async,space_cache=v2,commit=120,subvol=@/home,subvolid=259 /dev/$vda2 /mnt/home
-mount --mkdir -t vfat -o nodev,nosuid,noexec /dev/$vda1 /mnt/boot/efi
+mount -o compress=zstd:1,noatime,subvol=@ /dev/$vda2 /mnt
+mkdir -p /mnt/{boot/efi,home,.snapshots,var/{cache,log}}
+mount -o compress=zstd:1,noatime,subvol=@cache /dev/$vda2 /mnt/var/cache
+mount -o compress=zstd:1,noatime,subvol=@home /dev/$vda2 /mnt/home
+mount -o compress=zstd:1,noatime,subvol=@log /dev/$vda2 /mnt/var/log
+mount -o compress=zstd:1,noatime,subvol=@snapshots /dev/$vda2 /mnt/.snapshots
+mount /dev/$vda1 /mnt/boot/efi
 btrfs su l /mnt
 lsblk -f
 cd install-scripts/archinstall/
