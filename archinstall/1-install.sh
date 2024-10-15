@@ -63,7 +63,7 @@ sleep 2
 lsblk
 read -p "EFI bolumunu giriniz (ornek sda1): " vda1
 read -p "ROOT bolumunu giriniz (ornek sda2): " vda2
-mkfs.vfat -F32 -n /dev/$vda1;
+mkfs.fat -F 32 /dev/$vda1;
 mkfs.btrfs -f /dev/$vda2
 mount /dev/$vda2 /mnt
 btrfs su cr /mnt/@
