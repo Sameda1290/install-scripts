@@ -1,8 +1,10 @@
-keyboardlayout="trq"
-zoneinfo="Europe/Istanbul"
+keyboardlayout="trq"  
+echo "zaman ayarlaniyor"
+pacman -Sy reflector curl --noconfirm --needed
+timezone=$(curl -s https://ipinfo.io/timezone)
 hostname="ArchLinux"
 read -p "Kullanici adinizi giriniz: " username
-ln -sf /usr/share/zoneinfo/$zoneinfo /etc/localtime
+ln -sf /usr/share/zoneinfo/$timezone /etc/localtime
 hwclock --systohc
 echo "Start reflector..."
 reflector -c "Turkey," -p https -a 3 --sort rate --save /etc/pacman.d/mirrorlist
@@ -17,6 +19,8 @@ echo "$hostname" >> /etc/hostname
 echo "127.0.0.1 localhost" >> /etc/hosts
 echo "::1       localhost" >> /etc/hosts
 echo "127.0.1.1 $hostname.localdomain $hostname" >> /etc/hosts
+chsh -s /usr/bin/zsh 
+chsh -s /usr/bin/zsh $username
 echo "root sifreni gir"
 passwd root
 echo "$username kullanicisinin sifresini gir"
@@ -35,7 +39,6 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB 
 grub-mkconfig -o /boot/grub/grub.cfg
 sed -i 's/BINARIES=()/BINARIES=(btrfs setfont)/g' /etc/mkinitcpio.conf
 mkinitcpio -P
-pacman -S nano --noconfirm --needed
 # ------------------------------------------------------
 # Add user to wheel
 # ------------------------------------------------------
