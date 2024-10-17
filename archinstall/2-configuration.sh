@@ -26,6 +26,8 @@ echo "$username kullanicisinin sifresini gir"
 useradd -m -G wheel $username
 chsh -s /usr/bin/zsh $username
 passwd $username
+cp /root/.zshrc /home/$username/
+cp /root/.zprofile /home/$username/
 systemctl enable NetworkManager
 systemctl enable bluetooth
 systemctl enable cups.service
