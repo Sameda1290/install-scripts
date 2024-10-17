@@ -20,11 +20,11 @@ echo "127.0.0.1 localhost" >> /etc/hosts
 echo "::1       localhost" >> /etc/hosts
 echo "127.0.1.1 $hostname.localdomain $hostname" >> /etc/hosts
 chsh -s /usr/bin/zsh 
-chsh -s /usr/bin/zsh $username
 echo "root sifreni gir"
 passwd root
 echo "$username kullanicisinin sifresini gir"
 useradd -m -G wheel $username
+chsh -s /usr/bin/zsh $username
 passwd $username
 systemctl enable NetworkManager
 systemctl enable bluetooth
