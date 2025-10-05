@@ -43,6 +43,11 @@ done
 # Install zram
 # -----------------------------------------------------
 yay --noconfirm -S btrfs-assistant grub-btrfs snapper snapper snap-pac-git snapper-support
+sudo umount /.snapshots && sudo rm -rf /.snapshots
+sudo snapper -c root create-config /
+sudo btrfs su de .snapshots
+sudo mkdir /.snapshots
+sudo mount -a
 
 echo "DONE!"
 
